@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import uuid from 'uuid/v4';
-import { useGlobalContext } from '../hooks/context';
+import { useGlobalContext } from '../store';
 
 export default () => {
     const dispatch = useGlobalContext();

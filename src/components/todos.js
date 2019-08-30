@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGlobalContext } from '../hooks/context';
+import { useGlobalContext } from '../store';
 
 const TodoItem = ({ todo }) => {
     const dispatch = useGlobalContext();

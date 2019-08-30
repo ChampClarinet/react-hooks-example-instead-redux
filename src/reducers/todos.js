@@ -1,6 +1,4 @@
-import { todos as defaultTodos } from '../initializers';
-
-export const todoReducer = (state, action) => {
+export default (state, action) => {
     switch (action.type) {
         case 'DO_TODO':
             return state.map(todo => {
@@ -25,7 +23,6 @@ export const todoReducer = (state, action) => {
                 complete: false,
             });
         default:
-            throw new Error();
+            return state;
     }
 };
-export default [todos, dispatch] = useReducer(todoReducer, defaultTodos);
