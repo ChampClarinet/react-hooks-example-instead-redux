@@ -1,6 +1,8 @@
 import React from 'react';
+import { useGlobalContext } from '../hooks/context';
 
-export default ({ dispatch }) => {
+export default () => {
+    const dispatch = useGlobalContext();
     const handleShowAll = () =>
         dispatch({ type: 'SHOW_ALL' });
     const handleShowComplete = () =>

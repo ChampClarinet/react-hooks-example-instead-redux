@@ -1,4 +1,4 @@
-import React, { useReducer, createContext } from 'react';
+import React, { useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import Filter from './components/filter';
 import TodoList from './components/todos';
@@ -7,7 +7,7 @@ import Context from './hooks/context';
 import { todos as defaultTodos } from './initializers';
 
 const App = () => {
-    //*Filter
+    //*Filter Reducers (reducers/filter)
     const filterReducer = (state, action) => {
         switch (action.type) {
             case 'SHOW_ALL':
@@ -17,11 +17,10 @@ const App = () => {
             case 'SHOW_INCOMPLETE':
                 return 'INCOMPLETE';
             default:
-                throw new Error(`invalid type: ${action.type}`);
+                return state;
         }
     };
-    const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL');
-    //*Todos
+    //*Todos Reducers (reducers/todos)
     const todoReducer = (state, action) => {
         switch (action.type) {
             case 'DO_TODO':
@@ -47,13 +46,28 @@ const App = () => {
                     complete: false,
                 });
             default:
-                throw new Error(`invalid type: ${action.type}`);
+                return state;
         }
     };
-    const [todos, dispatchTodos] = useReducer(todoReducer, defaultTodos);
-    //*Global Dispatch
-    // const dispatch = action =>
-    //     [dispatchFilter, dispatchTodos].forEach(fn => fn(action));
+    //!Combine Reducers (reducers/index)
+    const useCombinedReducers = combinedReducers => {
+        //?Global State
+        const state = Object.keys(combinedReducers).reduce(
+            (acc, key) => ({ ...acc, [key]: combinedReducers[key][0] }),
+            {}
+        );
+        //*Global Dispatch
+        const dispatch = action =>
+            Object.keys(combinedReducers)
+                .map(key => combinedReducers[key][1])
+                .forEach(fn => fn(action));
+        return [state, dispatch];
+    }
+    const [state, dispatch] = useCombinedReducers({
+        filter: useReducer(filterReducer, 'ALL'),
+        todos: useReducer(todoReducer, defaultTodos)
+    });
+    const { filter, todos } = state;
     const filteredTodos = todos.filter(
         todo => (
             filter === 'ALL'
@@ -66,7 +80,7 @@ const App = () => {
         )
     );
     return (
-        <Context.Provider value={dispatchTodos}>
+        <Context.Provider value={dispatch}>
             <Filter />
             <TodoList todos={filteredTodos} />
             <AddTodo />
