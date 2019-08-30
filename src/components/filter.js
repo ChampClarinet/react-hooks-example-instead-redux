@@ -1,34 +1,25 @@
 import React from 'react';
-import { useGlobalContext } from '../store';
+import useFilterStates from '../redux/filters/actions';
 
 export default () => {
-    const dispatch = useGlobalContext();
-    const handleShowAll = () =>
-        //!(action/filter)
-        dispatch({ type: 'SHOW_ALL' });
-    const handleShowComplete = () =>
-        //!(action/filter)
-        dispatch({ type: 'SHOW_COMPLETE' });
-    const handleShowIncomplete = () =>
-        //!(action/filter)
-        dispatch({ type: 'SHOW_INCOMPLETE' });
+    const { showAll, showComplete, showIncomplete } = useFilterStates();
     return (
         <div>
             <button
                 type="button"
-                onClick={handleShowAll}
+                onClick={showAll}
             >
                 {"Show All"}
             </button>
             <button
                 type="button"
-                onClick={handleShowComplete}
+                onClick={showComplete}
             >
                 {"Show Complete"}
             </button>
             <button
                 type="button"
-                onClick={handleShowIncomplete}
+                onClick={showIncomplete}
             >
                 {"Show Incomplete"}
             </button>

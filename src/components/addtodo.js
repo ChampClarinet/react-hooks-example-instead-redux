@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
-import uuid from 'uuid/v4';
-import { useGlobalContext } from '../store';
+import useTodosStates from '../redux/todos/actions';
 
 export default () => {
-    const dispatch = useGlobalContext();
+    const { addTodo } = useTodosStates();
     const [task, setTask] = useState('');
     const handleSubmit = e => {
-        task && dispatch({
-            type: 'ADD_TODO',
-            task,
-            id: uuid()
-        })
+        task && addTodo(task);
         setTask('');
         e.preventDefault();
     };

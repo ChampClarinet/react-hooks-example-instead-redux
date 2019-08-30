@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import Filter from './components/filter';
 import TodoList from './components/todos';
 import AddTodo from './components/addtodo';
-import Store from './store';
-import useGlobalReducers from './reducers';
+import Store from './redux/store';
+import useGlobalReducers from './redux/reducers';
 
 const App = () => {
     const [state, dispatch] = useGlobalReducers();

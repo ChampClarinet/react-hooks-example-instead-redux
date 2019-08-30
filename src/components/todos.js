@@ -1,20 +1,15 @@
 import React from 'react';
-import { useGlobalContext } from '../store';
+import useTodosStates from '../redux/todos/actions';
 
 const TodoItem = ({ todo }) => {
-    const dispatch = useGlobalContext();
-    const handleChange = () =>
-        dispatch({
-            type: todo.complete ? 'UNDO_TODO' : 'DO_TODO',
-            id: todo.id
-        });
+    const { toggleComplete } = useTodosStates();
     return (
         <li>
             <label>
                 <input
                     type="checkbox"
                     checked={todo.complete}
-                    onChange={handleChange}
+                    onChange={() => toggleComplete(todo)}
                 />
                 {todo.task}
             </label>
